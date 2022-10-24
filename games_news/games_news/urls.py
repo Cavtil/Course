@@ -14,9 +14,30 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import path, include
+
+from polls.views import index, detail
+
+from django.conf import settings
+from news import views
+from django.conf.urls.static import static
 
 urlpatterns = [
-    path('polls/', include('polls.urls')),
+    path('', index),
+    path('polls/<int:question_id>/', detail),
+
+    path('about/', views.about_hendler),
+    path('contact/', views.contact_hendler),
+    path('elements/', views.elements_hendler),
+    path('index/', views.index_hendler),
+    path('main/', views.main_hendler),
+    path('property/', views.property_hendler),
+    path('blog/', views.blog_hendler),
+
+    path('__debug__/', include('debug_toolbar.urls')),
+
+    path('robots.txt', views.robots_hendler),
+
     path('admin/', admin.site.urls),
-]
+
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
